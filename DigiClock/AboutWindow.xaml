@@ -1,0 +1,51 @@
+﻿<Window x:Class="DigiClock.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DigiClock"
+        xmlns:vm="clr-namespace:DigiClock.Infrastructure"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="About DigiClock" Height="320" Width="600" Icon="/Resources/Images/info-solid.png">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Resources/Images/digiclock_bg.jpg"/>
+    </Window.Background>
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+            <StackPanel.Background>
+                <SolidColorBrush Color="Black" Opacity="0.4"/>
+            </StackPanel.Background>
+            <Button IsDefault="True" Padding="4" Margin="8" HorizontalAlignment="Center" Click="Button_Click">
+                <TextBlock>
+                    <Run Style="{StaticResource times-icon}" Foreground="{StaticResource error}"/>
+                    <Run Text="Close"/>
+                </TextBlock>
+            </Button>
+        </StackPanel>
+        <Grid Margin="8">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Margin" Value="40 10 0 10"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock FontSize="56">
+                <Run  Text="{x:Static vm:AboutData.AppTitle}"/>
+                <Run Text="{x:Static vm:AboutData.Version}"/>
+            </TextBlock>
+
+            <TextBlock Grid.Row="1" FontSize="22">
+                <Run Text="By:"/>
+                <Run Text="{x:Static vm:AboutData.Author}"/>
+                <Run Text="at"/>
+                <Run  Text="{x:Static vm:AboutData.Company}"/>
+            </TextBlock>
+        </Grid>
+    </DockPanel>
+</Window>

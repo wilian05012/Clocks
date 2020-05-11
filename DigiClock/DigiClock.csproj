@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Authors>William Brito</Authors>
+    <Company>Opus Code</Company>
+    <Description>Digital clock for Windows. NetCore - WPF sample application</Description>
+    <Copyright>&amp;#x1f12f; William Brito 2020</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <ApplicationIcon>clock-regular.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\digital-7 %28italic%29.ttf" />
+    <None Remove="Resources\Fonts\digital-7 %28mono italic%29.ttf" />
+    <None Remove="Resources\Fonts\digital-7 %28mono%29.ttf" />
+    <None Remove="Resources\Fonts\digital-7.ttf" />
+    <None Remove="Resources\Fonts\fa-brands-400.eot" />
+    <None Remove="Resources\Fonts\fa-brands-400.svg" />
+    <None Remove="Resources\Fonts\fa-brands-400.ttf" />
+    <None Remove="Resources\Fonts\fa-brands-400.woff" />
+    <None Remove="Resources\Fonts\fa-brands-400.woff2" />
+    <None Remove="Resources\Fonts\fa-regular-400.eot" />
+    <None Remove="Resources\Fonts\fa-regular-400.svg" />
+    <None Remove="Resources\Fonts\fa-regular-400.ttf" />
+    <None Remove="Resources\Fonts\fa-regular-400.woff" />
+    <None Remove="Resources\Fonts\fa-regular-400.woff2" />
+    <None Remove="Resources\Fonts\fa-solid-900.eot" />
+    <None Remove="Resources\Fonts\fa-solid-900.svg" />
+    <None Remove="Resources\Fonts\fa-solid-900.ttf" />
+    <None Remove="Resources\Fonts\fa-solid-900.woff" />
+    <None Remove="Resources\Fonts\fa-solid-900.woff2" />
+    <None Remove="Resources\Images\cog-solid.png" />
+    <None Remove="Resources\Images\digiclock_bg.jpg" />
+    <None Remove="Resources\Images\info-solid.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MiqM.Xceed.Wpf.Toolkit.NETCore" Version="3.5.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\digital-7 (italic).ttf" />
+    <Resource Include="Resources\Fonts\digital-7 (mono italic).ttf" />
+    <Resource Include="Resources\Fonts\digital-7 (mono).ttf" />
+    <Resource Include="Resources\Fonts\digital-7.ttf" />
+    <Resource Include="Resources\Fonts\fa-brands-400.eot" />
+    <Resource Include="Resources\Fonts\fa-brands-400.svg" />
+    <Resource Include="Resources\Fonts\fa-brands-400.ttf" />
+    <Resource Include="Resources\Fonts\fa-brands-400.woff" />
+    <Resource Include="Resources\Fonts\fa-brands-400.woff2" />
+    <Resource Include="Resources\Fonts\fa-regular-400.eot" />
+    <Resource Include="Resources\Fonts\fa-regular-400.svg" />
+    <Resource Include="Resources\Fonts\fa-regular-400.ttf" />
+    <Resource Include="Resources\Fonts\fa-regular-400.woff" />
+    <Resource Include="Resources\Fonts\fa-regular-400.woff2" />
+    <Resource Include="Resources\Fonts\fa-solid-900.eot" />
+    <Resource Include="Resources\Fonts\fa-solid-900.svg" />
+    <Resource Include="Resources\Fonts\fa-solid-900.ttf" />
+    <Resource Include="Resources\Fonts\fa-solid-900.woff" />
+    <Resource Include="Resources\Fonts\fa-solid-900.woff2" />
+    <Resource Include="Resources\Images\cog-solid.png" />
+    <Resource Include="Resources\Images\digiclock_bg.jpg" />
+    <Resource Include="Resources\Images\info-solid.png" />
+  </ItemGroup>
+
+</Project>

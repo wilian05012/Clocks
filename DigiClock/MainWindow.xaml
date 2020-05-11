@@ -1,0 +1,171 @@
+﻿<Window x:Class="DigiClock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DigiClock"
+        xmlns:vm="clr-namespace:DigiClock.ViewModel"
+        xmlns:cmd="clr-namespace:DigiClock.Commands"
+        mc:Ignorable="d" 
+        SizeToContent="WidthAndHeight" ShowInTaskbar="False" WindowStyle="None" 
+        AllowsTransparency="True" ResizeMode="NoResize" Background="Transparent"
+        Title="Digital Clock" Topmost="{Binding Settings.ShowOnTop}"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        MouseDown="Window_MouseDown" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave">
+    <Window.DataContext>
+        <vm:ClockVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="bool2visibility"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding x:Name="closeCmd" Command="{x:Static cmd:MainWindowCommands.Close}" Executed="closeCmd_Executed"/>
+        <CommandBinding x:Name="showSettingsCmd" Command="{x:Static cmd:MainWindowCommands.ShowSettings}" Executed="showSettingsCmd_Executed"/>
+        <CommandBinding x:Name="showAboutBoxCmd" Command="{x:Static cmd:MainWindowCommands.ShowAboutBox}" Executed="showAboutBoxCmd_Executed"/>
+    </Window.CommandBindings>
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="false">
+            <DockPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Settings.BgColor}"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DockPanel.Resources>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Settings.Color}"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Opacity" Value="0" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="1" Duration="0:0:0.8"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="0" Duration="0:0:0.8"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         FillBehavior="HoldEnd"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <Button DockPanel.Dock="Right" Command="{x:Static cmd:MainWindowCommands.Close}" 
+                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}">
+                <TextBlock>
+                    <Run Style="{StaticResource times-icon}"/>
+                </TextBlock>
+            </Button>
+            <Button DockPanel.Dock="Right" Command="{x:Static cmd:MainWindowCommands.ShowSettings}"
+                    ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}">
+                <TextBlock>
+                    <Run Style="{StaticResource cog-icon}"/>
+                </TextBlock>
+            </Button>
+            <Button DockPanel.Dock="Right" Command="{x:Static cmd:MainWindowCommands.ShowAboutBox}"
+                    ToolTip="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Command.Text}">
+                <TextBlock>
+                    <Run Style="{StaticResource info-icon}"/>
+                </TextBlock>
+            </Button>
+        </DockPanel>
+
+        <Grid>
+            <Grid.Background>
+                <SolidColorBrush Color="{Binding Settings.BgColor}" Opacity="0.6"/>
+            </Grid.Background>
+            <Grid Margin="8">
+                <Grid.Resources>
+                    <Style x:Key="digital-element" TargetType="TextBlock">
+                        <Setter Property="FontFamily" Value="{StaticResource digital-7}"/>
+                        <Setter Property="Foreground">
+                            <Setter.Value>
+                                <SolidColorBrush Color="{Binding Settings.Color}"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="FontSize" Value="42"/>
+                        <Setter Property="TextAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    </Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource digital-element}"/>
+                    <Style x:Key="animated-separator" TargetType="TextBlock" BasedOn="{StaticResource digital-element}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Settings.BlinkingDots}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard x:Name="blinking">
+                                        <Storyboard>
+                                            <DoubleAnimation From="1" To="0.2" Duration="0:0:1"
+                                                             RepeatBehavior="Forever" 
+                                                             Storyboard.TargetProperty="Opacity">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="blinking"/>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>    <!-- Hours -->
+                    <ColumnDefinition Width="auto"/>    <!-- Separator [:] -->
+                    <ColumnDefinition Width="auto"/>    <!-- Minutes -->
+                    <ColumnDefinition Width="auto"/>    <!-- Separator [.] -->
+                    <ColumnDefinition Width="auto"/>    <!-- Seconds -->
+                    <ColumnDefinition Width="auto"/>    <!-- AM-PM -->
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="88" Opacity="0.2"/>
+                <TextBlock Text="{Binding CurrentHours}" TextAlignment="Right"/>
+                <TextBlock Grid.Column="1" Text=":" Style="{StaticResource animated-separator}"/>
+
+                <TextBlock Grid.Column="2" Text="88" Opacity="0.2"/>
+                <TextBlock Grid.Column="2" Text="{Binding CurrentMinutes, StringFormat='{}{0:00}'}"/>
+                <TextBlock Grid.Column="3" Text="." Style="{StaticResource animated-separator}"
+                           Visibility="{Binding Settings.ShowSeconds, Converter={StaticResource bool2visibility}}"/>
+
+                <TextBlock Grid.Column="4" Text="88" Opacity="0.2" FontSize="28" VerticalAlignment="Bottom" Margin="0 0 0 4"
+                           Visibility="{Binding Settings.ShowSeconds, Converter={StaticResource bool2visibility}}"/>
+                <TextBlock Grid.Column="4" Text="{Binding CurrentSeconds, StringFormat='{}{0:00}'}" FontSize="28" VerticalAlignment="Bottom" Margin="0 0 0 4"
+                           Visibility="{Binding Settings.ShowSeconds, Converter={StaticResource bool2visibility}}"/>
+
+                <TextBlock Grid.Column="5" Text="{Binding AM_PM}" FontSize="22" VerticalAlignment="Top" 
+                           Margin="8 0 4 0" TextAlignment="Right" 
+                           Visibility="{Binding DisplayAmPmIndicator, Converter={StaticResource bool2visibility}}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6"
+                           Text="{Binding CurrentDate}" FontSize="14" TextAlignment="Right"
+                           Visibility="{Binding Settings.ShowDate, Converter={StaticResource bool2visibility}}"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
